@@ -1,0 +1,56 @@
+<div class="gift-page">
+
+  <!-- Top bar -->
+  <header class="top-bar">
+    <h1 class="title">Student Gifts</h1>
+
+    <!-- SEARCH BAR -->
+    <mat-form-field appearance="outline" class="search-bar">
+      <mat-label>Search gifts...</mat-label>
+      <input matInput [(ngModel)]="searchText" (input)="applyFilters()" />
+      <button matSuffix mat-icon-button aria-label="Clear" (click)="searchText=''; applyFilters()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </header>
+
+  <div class="content">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="user-info">
+        <p>Hello, {{ currentUser?.username || 'Guest' }}</p>
+      </div>
+
+      <div class="filters">
+        <h3>Filters</h3>
+
+        <mat-checkbox [(ngModel)]="filter.food" (change)="applyFilters()">Food</mat-checkbox>
+        <mat-checkbox [(ngModel)]="filter.education" (change)="applyFilters()">Education</mat-checkbox>
+        <mat-checkbox [(ngModel)]="filter.technology" (change)="applyFilters()">Technology</mat-checkbox>
+        <mat-checkbox [(ngModel)]="filter.games" (change)="applyFilters()">Games</mat-checkbox>
+      </div>
+    </aside>
+
+    <!-- Main gift section -->
+    <main class="gifts-container">
+      <mat-card class="gift-card" *ngFor="let gift of filteredGifts">
+        <img mat-card-image [src]="gift.image" alt="{{ gift.title }}" />
+        <mat-card-title>{{ gift.title }}</mat-card-title>
+        <mat-card-subtitle>{{ gift.category }}</mat-card-subtitle>
+        <mat-card-content>
+          <p>{{ gift.description }}</p>   
+          <p>Quantity: {{ gift.quantity }}</p>
+        </mat-card-content>
+        <button 
+            mat-flat-button 
+            color="primary" 
+            (click)="claimGift(gift)" 
+            [disabled]="gift.quantity <= 0">
+            {{ gift.quantity > 0 ? 'Buy' : 'Out of stock' }}
+          </button>
+      </mat-card>
+    </main>
+
+  </div>
+</div>
